@@ -73,6 +73,9 @@ def delete_cmd(fields):
             try:
                 os.remove(fields[1])
                 print(fields[1] + " has been deleted.")
+            # If you do not have permissions to delete a file, an error message is printed
+            except PermissionError:
+                print("Operation not permitted: You do not have permission to delete: "+ fields[1])
             except OSError:
                 print("Error: You cannot delete a directory with this command.")
         else: print(fields[1] + " does not exist.")
@@ -100,6 +103,9 @@ def copy_cmd(fields):
                 try:
                     shutil.copyfile(fields[1], fields[2])
                     print(fields[1] + " has been copied as " + fields[2])
+                # If you do not have permissions to copy a file, an error message is printed
+                except PermissionError:
+                    print("Operation not permitted: You do not have permission to copy: "+ fields[1])
                 except IsADirectoryError:
                     print("Error: You cannot copy a directory with this command.")
             else: print("The file " + fields[2] + " exists already. Please choose a different file name.")
@@ -126,6 +132,9 @@ def down_cmd(fields):
             # This exception is handled and when the exception occurs and error message is printed
             try:
                 os.chdir(fields[1])
+            # If you do not have permissions to read a directory, an error message is printed
+            except PermissionError:
+                print("Operation not permitted: You do not have permission to view the directory: "+ fields[1])
             except NotADirectoryError:
                 print(fields[1] + " is not a directory")
         else: print("Directory " + fields[1] + " does not exist.")
