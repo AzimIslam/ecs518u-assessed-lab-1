@@ -19,7 +19,7 @@ THE_PATH = ["/bin/", "/usr/bin/", "/usr/local/bin/", "./"]
 
 
 def signal_handler(num, handle):
-    os._exit()
+    os.kill(os.getpid())
 
 # ========================
 #    Run command
@@ -40,7 +40,6 @@ def runCmd(fields):
 
   new_pid = os.fork()
 
-
   # execv executes a new program, replacing the current process; on success, it does not return. 
   # On Linux systems, the new executable is loaded into the current process, and will have the same process id as the caller.
   if new_pid == 0:
@@ -48,6 +47,7 @@ def runCmd(fields):
     if not execname:
         print ("Executable file", cmd, "not found")
     else:
+        print(os.getpid())
         try:
             os.execv(execname, args)
         except :
