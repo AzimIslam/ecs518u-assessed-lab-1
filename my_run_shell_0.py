@@ -33,20 +33,25 @@ def runCmd(fields):
 
   execname = add_path(cmd, THE_PATH)
 
-  # run the executable
-  if not execname:
-      print ("Executable file", cmd, "not found")
-  else:
-    # execute the command
-    print(execname)
+  new_pid = os.fork()
+
 
   # execv executes a new program, replacing the current process; on success, it does not return. 
   # On Linux systems, the new executable is loaded into the current process, and will have the same process id as the caller.
-  try:	
-    os.execv(execname, args)
-  except :
-    print("Something went wrong there")
-    os._exit(0)
+  if new_pid == 0:
+              
+    if not execname:
+        print ("Executable file", cmd, "not found")
+    else:
+        try:
+            os.execv(execname, args)
+        except :
+            print("Something went wrong there")
+            os._exit(0)
+  else:
+    status = os.waitpid(0,0)
+    exitCode = os.WEXITSTATUS(status[1])
+    print("Process exited with code: " + str(exitCode))
 
 # ========================
 #    Constructs the full path used to run the external command
