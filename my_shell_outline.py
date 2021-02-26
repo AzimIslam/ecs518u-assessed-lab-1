@@ -197,4 +197,5 @@ while True:
     elif fields[0] == "up": up_cmd(fields)
     elif fields[0] == "down": down_cmd(fields)
     elif fields[0] == "finish": exit_cmd(fields)
+    elif len(fields) == 0: print("Please enter a command")
     else: print("Unknown command", fields[0])
