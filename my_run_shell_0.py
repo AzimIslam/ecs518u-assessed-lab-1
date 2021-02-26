@@ -249,7 +249,8 @@ while True:
     line = input("PShell>")
     fields = line.split()
     
-    if fields[0] == "files": files_cmd(fields)
+    if len(fields) == 0: print("Please enter a command")
+    elif fields[0] == "files": files_cmd(fields)
     elif fields[0] == "info": info_cmd(fields)
     elif fields[0] == "delete": delete_cmd(fields)
     elif fields[0] == "copy": copy_cmd(fields)
@@ -257,7 +258,6 @@ while True:
     elif fields[0] == "up": up_cmd(fields)
     elif fields[0] == "down": down_cmd(fields)
     elif fields[0] == "finish": exit_cmd(fields)
-    elif len(fields) == 0: print("Please enter a command")
     else:
         new_pid = os.fork()
         runCmd(fields, new_pid)
