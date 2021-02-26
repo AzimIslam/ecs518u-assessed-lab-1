@@ -18,14 +18,17 @@ import signal
 THE_PATH = ["/bin/", "/usr/bin/", "/usr/local/bin/", "./"]
 
 def signal_handler(signum, frame):
-    print("LOL")
+    if new_pid == 0:
+        os._exit(9)
+
+signal.signal(signal.SIGINT, signal_handler)
 
 # ========================
 #    Run command
 #    Run an executable somewhere on the path
 #    Any number of arguments
 # ========================
-def runCmd(fields):
+def runCmd(field, new_pid):
   global PID, THE_PATH
 
   cmd = fields[0]
@@ -37,15 +40,12 @@ def runCmd(fields):
 
   execname = add_path(cmd, THE_PATH)
 
-  new_pid = os.fork()
-
   # execv executes a new program, replacing the current process; on success, it does not return. 
   # On Linux systems, the new executable is loaded into the current process, and will have the same process id as the caller.
   if new_pid == 0:
     if not execname:
         print ("Executable file", cmd, "not found")
     else:
-        signal.signal(signal.SIGINT, signal_handler)
         try:
             os.execv(execname, args)
         except :
@@ -111,5 +111,8 @@ while True:
         filesCmd(fields)
     elif fields[0] == "info":
         infoCmd(fields)
+    elif fields[0] == "goodbye":
+
     else:
-        runCmd(fields)
+        new_pid = os.fork()
+        runCmd(fields, new_pid)
