@@ -112,7 +112,7 @@ while True:
     elif fields[0] == "info":
         infoCmd(fields)
     elif fields[0] == "goodbye":
-
+        print("Test")
     else:
         new_pid = os.fork()
         runCmd(fields, new_pid)
