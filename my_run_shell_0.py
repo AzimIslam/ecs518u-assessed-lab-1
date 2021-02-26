@@ -1,6 +1,7 @@
 import os, sys
 import shutil
 from datetime import datetime
+import signal
 #add other imports as needed by your script
 # The purpose of this script is to give you simple functions for locating an executable program in common locations in the Linux path
 
