@@ -6,7 +6,6 @@ import time
 import glob
 import shutil
 import pwd
-
 #add other imports as needed by your script
 # The purpose of this script is to give you simple functions for locating an executable program in common locations in the Linux path
 
@@ -23,8 +22,8 @@ import pwd
 THE_PATH = ["/bin/", "/usr/bin/", "/usr/local/bin/", "./"]
 
 def signal_handler(signum, frame):
-    time.sleep(1)
-    sys.exit(9)
+    if new_pid == 0:
+        sys.exit(9)
 
 signal.signal(signal.SIGINT, signal_handler)
 
