@@ -18,7 +18,7 @@ import signal
 THE_PATH = ["/bin/", "/usr/bin/", "/usr/local/bin/", "./"]
 
 def signal_handler(signum, frame):
-    timer.sleep(3)
+    time.sleep(1)
     sys.exit(9)
 
 signal.signal(signal.SIGINT, signal_handler)
