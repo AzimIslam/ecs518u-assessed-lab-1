@@ -21,6 +21,8 @@ import pwd
 # by using: path = os.environ['PATH'] and then splitting based on ':' such as the_path = path.split(':')
 THE_PATH = ["/bin/", "/usr/bin/", "/usr/local/bin/", "./"]
 
+new_pid = -1
+
 def signal_handler(signum, frame):
     if new_pid == 0:
         sys.exit(9)
