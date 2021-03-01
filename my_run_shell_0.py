@@ -24,8 +24,7 @@ THE_PATH = ["/bin/", "/usr/bin/", "/usr/local/bin/", "./"]
 new_pid = -1
 
 def signal_handler(signum, frame):
-    if new_pid == 0:
-        sys.exit(9)
+    if new_pid == 0: os.kill(os.getpid(), 9)
 
 signal.signal(signal.SIGINT, signal_handler)
 
@@ -59,8 +58,8 @@ def runCmd(field, new_pid):
             os._exit(0)
   else:
     status = os.waitpid(0,0)
-    exitCode = os.WEXITSTATUS(status[1])
-    print("Process exited with code: " + str(exitCode))
+    print(status)
+    print("Process exited with code: ")
 
 # ========================
 #    Constructs the full path used to run the external command
