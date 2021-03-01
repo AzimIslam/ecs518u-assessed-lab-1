@@ -24,7 +24,7 @@ THE_PATH = ["/bin/", "/usr/bin/", "/usr/local/bin/", "./"]
 new_pid = -1
 
 def signal_handler(signum, frame):
-    if new_pid == 0: os.kill(os.getpid(), 9)
+    os.kill(os.getpid(), 9)
 
 signal.signal(signal.SIGINT, signal_handler)
 
