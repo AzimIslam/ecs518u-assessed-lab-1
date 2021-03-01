@@ -25,7 +25,7 @@ def signal_handler(signum, frame):
     try:
         os.kill(new_pid, 9)
     except ProcessLookupError:
-        continue
+        pass
 
 signal.signal(signal.SIGINT, signal_handler)
 
