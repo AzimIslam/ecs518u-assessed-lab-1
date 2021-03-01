@@ -22,7 +22,10 @@ import pwd
 THE_PATH = ["/bin/", "/usr/bin/", "/usr/local/bin/", "./"]
 
 def signal_handler(signum, frame):
-    os.kill(new_pid, 9)
+    try:
+        os.kill(new_pid, 9)
+    except ProcessLookupError:
+        continue
 
 signal.signal(signal.SIGINT, signal_handler)
 
