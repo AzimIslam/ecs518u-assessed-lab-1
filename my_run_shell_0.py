@@ -21,10 +21,8 @@ import pwd
 # by using: path = os.environ['PATH'] and then splitting based on ':' such as the_path = path.split(':')
 THE_PATH = ["/bin/", "/usr/bin/", "/usr/local/bin/", "./"]
 
-new_pid = -1
-
 def signal_handler(signum, frame):
-    os.kill(os.getpid(), 9)
+    os.kill(new_pid, 9)
 
 signal.signal(signal.SIGINT, signal_handler)
 
@@ -50,16 +48,16 @@ def runCmd(field, new_pid):
   if new_pid == 0:
     if not execname:
         print ("Executable file", cmd, "not found")
-    else:
-        try:
-            os.execv(execname, args)
-        except :
-            print("Something went wrong there")
-            os._exit(0)
+    try:
+        os.execv(execname, args)
+    except:
+        print("Something went wrong there")
+        sys.exit(1)    
+    os.exit(0)
+
   else:
     status = os.waitpid(0,0)
-    print(status)
-    print("Process exited with code: ")
+    print("Process exited with code: " + str(status[1]))
 
 # ========================
 #    Constructs the full path used to run the external command
@@ -134,7 +132,7 @@ def delete_cmd(fields):
                 print("Error: You cannot delete a directory with this command.")
             # If you do not have permissions to delete a file, an error message is printed
             except PermissionError:
-                print("Operation not permitted: You do not have permission to delete: "+ fields[1])
+                print("Operation not permitted: You do not have permission to delete: " + fields[1])
         else: print(fields[1] + " does not exist.")
 
 
