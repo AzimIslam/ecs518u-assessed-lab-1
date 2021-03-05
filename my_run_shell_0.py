@@ -21,12 +21,16 @@ import pwd
 # by using: path = os.environ['PATH'] and then splitting based on ':' such as the_path = path.split(':')
 THE_PATH = ["/bin/", "/usr/bin/", "/usr/local/bin/", "./"]
 
+# If the interrupt signal is triggered it attempts to kill
+# the process but if you run the signal from the parent process
+# it ignores the signal
 def signal_handler(signum, frame):
     try:
         os.kill(new_pid, 9)
     except ProcessLookupError:
         pass
 
+# Installs the signal handler
 signal.signal(signal.SIGINT, signal_handler)
 
 # ========================
@@ -37,8 +41,11 @@ signal.signal(signal.SIGINT, signal_handler)
 def runCmd(field, new_pid):
   global PID, THE_PATH
 
+  # Stores the command used
   cmd = fields[0]
   cnt = 0
+
+  # Stores the arguments in this command
   args = []
   while cnt < len(fields):
       args.append(fields[cnt])
@@ -259,5 +266,7 @@ while True:
     elif fields[0] == "down": down_cmd(fields)
     elif fields[0] == "finish": exit_cmd(fields)
     else:
+        # Runs os.fork() so we can run the linux command
+        # in the child process
         new_pid = os.fork()
         runCmd(fields, new_pid)
